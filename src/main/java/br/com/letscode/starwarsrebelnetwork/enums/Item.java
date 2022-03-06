@@ -1,9 +1,20 @@
 package br.com.letscode.starwarsrebelnetwork.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum Item {
-    WEAPON, AMMO, WATER, FOOD
+    WEAPON (4),
+    AMMO (3),
+    WATER (2),
+    FOOD (1);
+
+    private final Integer price;
+
 }
 
-// TODO: Vamos tentar implementar um ENUM de Hasmap,
-//  assim teremos já pra cada item, seu valor de mercado atrelado
-//  (Arma 4, Munição 3, Água 2 e Comida 1)
+
+
+

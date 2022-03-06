@@ -1,11 +1,13 @@
 package br.com.letscode.starwarsrebelnetwork.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class Localization {
+@AllArgsConstructor
+public class Location {
 
+    private String baseName;
     private String lattitude;
     private String longitude;
-    private String baseName;
 }
