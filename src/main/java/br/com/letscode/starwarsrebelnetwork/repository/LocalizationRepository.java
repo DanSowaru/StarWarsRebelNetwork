@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 public class LocalizationRepository {
 
-    private static List<Location> registeredLocations = new ArrayList<>();
+    public static List<Location> registeredLocations = new ArrayList<>();
 
     static {
         registeredLocations.addAll(

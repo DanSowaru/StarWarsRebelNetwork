@@ -8,6 +8,6 @@ import lombok.Data;
 public class Location {
 
     private String baseName;
-    private String lattitude;
+    private String latitude;
     private String longitude;
 }
