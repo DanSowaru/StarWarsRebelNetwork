@@ -23,11 +23,23 @@ public class RebelRestController {
         return rebelService.listAllRebels();
     }
 
+    @GetMapping("/${id}")
+    public ReturnRebelDTO getRebelDTO(@PathVariable("id") String id) {
+        return rebelService.getRebelById(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void newRebel(@RequestBody RebelDTO rebelDTO) {
 
         this.rebelService.newRebel(rebelDTO);
+    }
+
+    @PatchMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void accuseRebel(@RequestBody String rebelID) {
+
+        this.rebelService.accuseRebel(rebelID);
     }
 
 

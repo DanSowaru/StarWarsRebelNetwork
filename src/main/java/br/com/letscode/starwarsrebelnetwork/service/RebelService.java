@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class RebelService {
+
     private final RebelRepository repository;
 
     public List<ReturnRebelDTO> listAllRebels() {
@@ -50,5 +51,16 @@ public class RebelService {
 
         return rebelDTO;
     }
+
+    public ReturnRebelDTO getRebelById(String rebelId) {
+        RebelEntity rebelEntity = repository.getRebel(rebelId);
+        return fromEntitytoReturnRebelDTO(rebelEntity);
+    }
+
+    public ReturnRebelDTO accuseRebel(String rebelId) {
+
+    }
+
+
 
 }
