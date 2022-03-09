@@ -1,7 +1,7 @@
 package br.com.letscode.starwarsrebelnetwork.controller;
 
 import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
-import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
+import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
 import br.com.letscode.starwarsrebelnetwork.service.RebelService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class RebelRestController {
     }
 
     @GetMapping("/all")
-    public List<RebelEntity> getRebelsList() {
+    public List<ReturnRebelDTO> getRebelsList() {
         return rebelService.listAllRebels();
     }
 
@@ -29,4 +29,6 @@ public class RebelRestController {
 
         this.rebelService.newRebel(rebelDTO);
     }
+
+
 }
