@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RebelDTO {
 
+
     private String name;
     private String age;
     private Gender gender;

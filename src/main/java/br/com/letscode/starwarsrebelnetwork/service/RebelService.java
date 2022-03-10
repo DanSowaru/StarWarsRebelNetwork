@@ -31,7 +31,7 @@ public class RebelService {
         entity.setName(rebelDTO.getName());
         entity.setAge(rebelDTO.getAge());
         entity.setGender(rebelDTO.getGender());
-        entity.setBaseName(rebelDTO.getLocation().getBaseName());
+        entity.setLocation(rebelDTO.getLocation());
         entity.setInventory(rebelDTO.getInventory());
         entity.setAccusations(rebelDTO.getAccusations());
 
@@ -45,7 +45,7 @@ public class RebelService {
         rebelDTO.setName(entity.getName());
         rebelDTO.setAge(entity.getAge());
         rebelDTO.setGender(entity.getGender());
-        rebelDTO.setBaseName(entity.getBaseName());
+        rebelDTO.setLocation(entity.getLocation());
         rebelDTO.setInventory(entity.getInventory());
         rebelDTO.setAccusations(entity.getAccusations());
 
@@ -58,7 +58,7 @@ public class RebelService {
     }
 
     public ReturnRebelDTO accuseRebel(String rebelId) {
-
+        return null;
     }
 
 

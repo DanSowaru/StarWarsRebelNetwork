@@ -23,7 +23,7 @@ public class RebelRestController {
         return rebelService.listAllRebels();
     }
 
-    @GetMapping("/${id}")
+    @GetMapping("/{id}")
     public ReturnRebelDTO getRebelDTO(@PathVariable("id") String id) {
         return rebelService.getRebelById(id);
     }
