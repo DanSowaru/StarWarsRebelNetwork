@@ -12,8 +12,9 @@ public class ReturnRebelDTO {
     private String name;
     private String age;
     private Gender gender;
-    private String baseName;
+    private LocalizationDTO location;
     private InventoryDTO inventory;
     private Short accusations;
+
 
 }

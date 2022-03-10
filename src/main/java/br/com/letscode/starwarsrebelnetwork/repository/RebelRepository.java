@@ -14,11 +14,13 @@ import java.util.List;
 public class RebelRepository {
 
     private static List<RebelEntity> rebelList = new ArrayList();
+    private int id = 1;
 
 
     public RebelEntity saveRebelData(RebelEntity rebelEntity) {
-        rebelEntity.setId(rebelList.get(rebelList.size()-1).getId()+1);
+        rebelEntity.setId(String.valueOf(id));
         rebelList.add(rebelEntity);
+        id++;
         return rebelEntity;
     }
 
