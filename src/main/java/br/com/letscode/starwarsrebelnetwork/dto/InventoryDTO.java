@@ -14,6 +14,11 @@ public class InventoryDTO {
 
 
     private List<InventoryItemDTO> itens;
+
+
+    public List<InventoryItemDTO> getAll() {
+        return itens;
+    }
     //TODO: INVENTORY ENTITY;
 
 

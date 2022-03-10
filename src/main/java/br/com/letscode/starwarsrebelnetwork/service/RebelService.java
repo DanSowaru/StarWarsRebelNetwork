@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class RebelService {
 
     private final RebelRepository repository;
+    private final InventoryService inventoryService;
 
     public List<ReturnRebelDTO> listAllRebels() {
         List<ReturnRebelDTO> returnList = repository.getAll().stream()
@@ -32,7 +33,10 @@ public class RebelService {
         entity.setAge(rebelDTO.getAge());
         entity.setGender(rebelDTO.getGender());
         entity.setLocation(rebelDTO.getLocation());
-        entity.setInventory(rebelDTO.getInventory());
+        entity.setInventory(inventoryService.inventoryDTOToInventoryEntity(rebelDTO.getInventory()));
+
+
+
         entity.setAccusations(rebelDTO.getAccusations());
 
         RebelEntity rebelEntityDataSaved = repository.saveRebelData(entity);
@@ -46,7 +50,7 @@ public class RebelService {
         rebelDTO.setAge(entity.getAge());
         rebelDTO.setGender(entity.getGender());
         rebelDTO.setLocation(entity.getLocation());
-        rebelDTO.setInventory(entity.getInventory());
+        rebelDTO.setInventory(inventoryService.returnInventoryEntityToInventoryDTO(entity.getInventory()));
         rebelDTO.setAccusations(entity.getAccusations());
 
         return rebelDTO;
