@@ -1,13 +1,10 @@
 package br.com.letscode.starwarsrebelnetwork.repository;
 
-import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
-
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Repository
@@ -30,6 +27,10 @@ public class RebelRepository {
 
     public RebelEntity getRebel(String id) {
         return rebelList.stream().filter(rebel -> rebel.getId().equals(id)).findFirst().get();
+    }
+
+    public List<RebelEntity> getTraitorsList() {
+        return rebelList.stream().filter(rebel -> rebel.getAccusations() > 2).collect(Collectors.toList());
     }
 }
 
