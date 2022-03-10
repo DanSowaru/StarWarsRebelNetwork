@@ -1,7 +1,7 @@
 package br.com.letscode.starwarsrebelnetwork.entity;
 
 
-import br.com.letscode.starwarsrebelnetwork.dto.InventoryDTO;
+
 import br.com.letscode.starwarsrebelnetwork.dto.LocalizationDTO;
 import br.com.letscode.starwarsrebelnetwork.enums.Gender;
 import lombok.Data;
@@ -15,11 +15,11 @@ public class RebelEntity {
     private String age;
     private Gender gender;
     private LocalizationDTO location;
-    private InventoryDTO inventory;
+    private InventoryEntity inventory;
     private Short accusations;
 
 
-    public RebelEntity(String name, String age, Gender gender, LocalizationDTO location, InventoryDTO inventory, Short accusations, String id) {
+    public RebelEntity(String name, String age, Gender gender, LocalizationDTO location, InventoryEntity inventory, Short accusations, String id) {
         this.name = name;
         this.age = age;
         this.gender = gender;
