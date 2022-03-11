@@ -1,5 +1,6 @@
 package br.com.letscode.starwarsrebelnetwork.service;
 
+import br.com.letscode.starwarsrebelnetwork.dto.RebelAccusationDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
@@ -34,9 +35,6 @@ public class RebelService {
         entity.setGender(rebelDTO.getGender());
         entity.setLocation(rebelDTO.getLocation());
         entity.setInventory(inventoryService.inventoryDTOToInventoryEntity(rebelDTO.getInventory()));
-
-
-
         entity.setAccusations(rebelDTO.getAccusations());
 
         RebelEntity rebelEntityDataSaved = repository.saveRebelData(entity);
@@ -61,8 +59,17 @@ public class RebelService {
         return fromEntitytoReturnRebelDTO(rebelEntity);
     }
 
-    public ReturnRebelDTO accuseRebel(String rebelId) {
-        return null;
+    public RebelAccusationDTO accuseRebel(String rebelId) {
+        RebelEntity rebelEntity = repository.getRebel(rebelId);
+        RebelAccusationDTO rebelAccusationDTO = fromEntitytoAcsusationDTO(rebelId);
+        rebelAccusationDTO.setAccusations((short) (rebelAccusationDTO.getAccusations()+1));
+        repository.updateRebel(rebelAccusationDTO);
+        return rebelAccusationDTO;
+    }
+
+    public RebelAccusationDTO fromEntitytoAcsusationDTO(String rebelId) {
+        RebelEntity rebelEntity = repository.getRebel(rebelId);
+        RebelAccusationDTO rebelAccusationDTO = new RebelAccusationDTO(rebelEntity.getAccusations(), rebelId);
     }
 
 
