@@ -7,11 +7,10 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ReturnTraitorsDTO {
+public class ReturnAlliesDTO {
 
     private String rebelsStatus;
-    private int totalTraitorsNumber;
-    private String traitorsPercentage;
-    private List<ReturnRebelDTO> traitorsList;
-
+    private int totalAlliesNumber;
+    private String alliesPercentage;
+    private List<ReturnRebelDTO> alliesList;
 }

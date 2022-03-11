@@ -1,6 +1,7 @@
 package br.com.letscode.starwarsrebelnetwork.controller;
 
 import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.ReturnAlliesDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReturnTraitorsDTO;
 import br.com.letscode.starwarsrebelnetwork.service.RebelReportService;
@@ -35,6 +36,11 @@ public class RebelRestController {
     @GetMapping("/traitors")
     public ReturnTraitorsDTO getTraitorsInformation() {
         return reportService.getTraitorsReport();
+    }
+
+    @GetMapping("/allies")
+    public ReturnAlliesDTO getAlliesInformation() {
+        return reportService.getAlliesReport();
     }
 
     @PostMapping
