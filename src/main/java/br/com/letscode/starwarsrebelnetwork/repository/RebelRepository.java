@@ -43,7 +43,15 @@ public class RebelRepository {
     }
 
     public List<RebelEntity> getTraitorsList() {
-        return rebelList.stream().filter(rebel -> rebel.getAccusations() > 2).collect(Collectors.toList());
+        return rebelList.stream()
+                .filter(rebel -> rebel.getAccusations() > 2)
+                .collect(Collectors.toList());
+    }
+
+    public List<RebelEntity> getAlliesList() {
+        return rebelList.stream()
+                .filter(rebel -> rebel.getAccusations() < 3)
+                .collect(Collectors.toList());
     }
 
 
