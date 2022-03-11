@@ -2,6 +2,8 @@ package br.com.letscode.starwarsrebelnetwork.controller;
 
 import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.ReturnTraitorsDTO;
+import br.com.letscode.starwarsrebelnetwork.service.RebelReportService;
 import br.com.letscode.starwarsrebelnetwork.service.RebelService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,11 @@ import java.util.List;
 public class RebelRestController {
 
     private final RebelService rebelService;
+    private final RebelReportService reportService;
 
-    public RebelRestController(RebelService rebelService) {
+    public RebelRestController(RebelService rebelService, RebelReportService reportService) {
         this.rebelService = rebelService;
+        this.reportService = reportService;
     }
 
     @GetMapping("/all")
@@ -26,6 +30,11 @@ public class RebelRestController {
     @GetMapping("/{id}")
     public ReturnRebelDTO getRebelDTO(@PathVariable("id") String id) {
         return rebelService.getRebelById(id);
+    }
+
+    @GetMapping("/traitors")
+    public ReturnTraitorsDTO getTraitorsInformation() {
+        return reportService.getTraitorsReport();
     }
 
     @PostMapping
