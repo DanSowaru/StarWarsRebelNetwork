@@ -70,6 +70,7 @@ public class RebelService {
     public RebelAccusationDTO fromEntitytoAcsusationDTO(String rebelId) {
         RebelEntity rebelEntity = repository.getRebel(rebelId);
         RebelAccusationDTO rebelAccusationDTO = new RebelAccusationDTO(rebelEntity.getAccusations(), rebelId);
+        return rebelAccusationDTO;
     }
 
 
