@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 public class RebelEntity {
 
-
     private String id;
     private String name;
     private String age;
