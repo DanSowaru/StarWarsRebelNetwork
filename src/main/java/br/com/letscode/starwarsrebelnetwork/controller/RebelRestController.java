@@ -1,9 +1,6 @@
 package br.com.letscode.starwarsrebelnetwork.controller;
 
-import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.ReturnAlliesDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.ReturnTraitorsDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.*;
 import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
 import br.com.letscode.starwarsrebelnetwork.service.RebelReportService;
 import br.com.letscode.starwarsrebelnetwork.service.RebelService;
@@ -12,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/rebels")
@@ -65,5 +65,42 @@ public class RebelRestController {
         ReturnRebelDTO rebelDTO = rebelService.update(id, rebelPatchLocationRequestDTO);
 
         return ResponseEntity.ok(rebelDTO);
+    }
+
+    @PostMapping("/trade/{firstId}/{secondId}")
+    //ResponseEntity<RebelInventoryTradeDTO>
+    public void patchInventoryRebel(@PathVariable String firstId,
+                                                                    @PathVariable String secondId,
+                                                                    @RequestBody RebelInventoryTradeDTO rebelInventoryTradeDTO) {
+
+        ReturnRebelDTO firstRebel = rebelService.getRebelById(firstId);
+        ReturnRebelDTO secondRebel = rebelService.getRebelById(secondId);
+
+        //firstRebelItens = ["AMMO",2, "WEAPON", 1, "WATER", 3]
+        //firstRebelTradeItens = ["WATER", 2]
+
+        List<InventoryItemDTO> firstRebelItens = firstRebel.getInventory().getItens();
+        List<InventoryItemDTO> firstRebelTradeItens = rebelInventoryTradeDTO.getFirstRebelOffer();
+        List<InventoryItemDTO> finalFirstRebelInventory = firstRebelItens.stream().map(item -> {
+            Optional<InventoryItemDTO> itemToTrade = firstRebelTradeItens.stream().filter(tradeItem -> tradeItem.getItem().equals(item.getItem())).findFirst();
+            if (itemToTrade.isEmpty()) {
+                return item;
+            } else {
+                int quantity = item.getQuantity();
+                int quantityToTrade = itemToTrade.get().getQuantity();
+
+                int finalQuantity = quantity - quantityToTrade;
+                InventoryItemDTO inventory = new InventoryItemDTO();
+                inventory.setItem(item.getItem());
+                inventory.setQuantity(finalQuantity);
+                return inventory;
+            }
+
+        }).collect(Collectors.toList());
+
+
+//        System.out.println("hello");
+//        return ResponseEntity.ok(null);
+
     }
 }
