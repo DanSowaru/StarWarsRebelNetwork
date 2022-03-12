@@ -2,6 +2,7 @@ package br.com.letscode.starwarsrebelnetwork.repository;
 
 import br.com.letscode.starwarsrebelnetwork.dto.LocalizationDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.RebelAccusationDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
@@ -54,7 +55,14 @@ public class RebelRepository {
                 .collect(Collectors.toList());
     }
 
-
+    public void updateRebelLocation(RebelEntity entity) {
+        for (int i = 0; i < rebelList.size(); i++) {
+            if (rebelList.get(i).getId().equals(entity.getId())) {
+                rebelList.get(i).setLocation(entity.getLocation());
+                return;
+            }
+        }
+    }
 }
 
 

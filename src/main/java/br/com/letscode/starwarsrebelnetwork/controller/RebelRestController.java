@@ -4,9 +4,11 @@ import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReturnAlliesDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReturnTraitorsDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
 import br.com.letscode.starwarsrebelnetwork.service.RebelReportService;
 import br.com.letscode.starwarsrebelnetwork.service.RebelService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,5 +59,11 @@ public class RebelRestController {
         this.rebelService.accuseRebel(rebelID);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<ReturnRebelDTO> patchRebelLocation(@PathVariable String id, @RequestBody RebelPatchLocationRequestDTO rebelPatchLocationRequestDTO) {
 
+        ReturnRebelDTO rebelDTO = rebelService.update(id, rebelPatchLocationRequestDTO);
+
+        return ResponseEntity.ok(rebelDTO);
+    }
 }
