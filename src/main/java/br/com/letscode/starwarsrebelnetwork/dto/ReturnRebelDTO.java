@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class ReturnRebelDTO {
 
+    private String id;
     private String name;
     private String age;
     private Gender gender;

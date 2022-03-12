@@ -3,6 +3,7 @@ package br.com.letscode.starwarsrebelnetwork.service;
 import br.com.letscode.starwarsrebelnetwork.dto.RebelAccusationDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
 import br.com.letscode.starwarsrebelnetwork.repository.RebelRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,7 @@ public class RebelService {
 
     public ReturnRebelDTO fromEntitytoReturnRebelDTO(RebelEntity entity) {
         ReturnRebelDTO rebelDTO = new ReturnRebelDTO();
+        rebelDTO.setId(entity.getId());
         rebelDTO.setName(entity.getName());
         rebelDTO.setAge(entity.getAge());
         rebelDTO.setGender(entity.getGender());
@@ -52,6 +54,19 @@ public class RebelService {
         rebelDTO.setAccusations(entity.getAccusations());
 
         return rebelDTO;
+    }
+
+    public RebelEntity fromRebelDtoToRebelEntity(RebelDTO rebelDTO) {
+        RebelEntity entity = new RebelEntity();
+
+        entity.setName(rebelDTO.getName());
+        entity.setAge(rebelDTO.getAge());
+        entity.setGender(rebelDTO.getGender());
+        entity.setLocation(rebelDTO.getLocation());
+        entity.setInventory(inventoryService.inventoryDTOToInventoryEntity(rebelDTO.getInventory()));
+        entity.setAccusations(rebelDTO.getAccusations());
+
+        return entity;
     }
 
     public ReturnRebelDTO getRebelById(String rebelId) {
@@ -73,6 +88,12 @@ public class RebelService {
         return rebelAccusationDTO;
     }
 
+    public ReturnRebelDTO update(String id, RebelPatchLocationRequestDTO rebelPatchLocationRequestDTO) {
+        RebelEntity entity = repository.getRebel(id);
+        entity.setLocation(rebelPatchLocationRequestDTO.getLocation());
 
+        repository.updateRebelLocation(entity);
+        return fromEntitytoReturnRebelDTO(repository.getRebel(id));
+    }
 
 }
