@@ -20,11 +20,10 @@ public class RebelService {
     private final InventoryService inventoryService;
 
     public List<ReturnRebelDTO> listAllRebels() {
-        List<ReturnRebelDTO> returnList = repository.getAll().stream()
-                .map((entidade -> fromEntitytoReturnRebelDTO(entidade)))
-                .collect(Collectors.toList());
 
-        return returnList;
+        return repository.getAll().stream()
+                .map((this::mapEntityToReturnRebelDTO))
+                .collect(Collectors.toList());
     }
 
 
@@ -43,7 +42,7 @@ public class RebelService {
         //TODO: FAZER O RETORNO DO REBEL SALVO;
     }
 
-    public ReturnRebelDTO fromEntitytoReturnRebelDTO(RebelEntity entity) {
+    public ReturnRebelDTO mapEntityToReturnRebelDTO(RebelEntity entity) {
         ReturnRebelDTO rebelDTO = new ReturnRebelDTO();
         rebelDTO.setId(entity.getId());
         rebelDTO.setName(entity.getName());
@@ -71,13 +70,13 @@ public class RebelService {
 
     public ReturnRebelDTO getRebelById(String rebelId) {
         RebelEntity rebelEntity = repository.getRebel(rebelId);
-        return fromEntitytoReturnRebelDTO(rebelEntity);
+        return mapEntityToReturnRebelDTO(rebelEntity);
     }
 
     public RebelAccusationDTO accuseRebel(String rebelId) {
         RebelEntity rebelEntity = repository.getRebel(rebelId);
         RebelAccusationDTO rebelAccusationDTO = fromEntitytoAcsusationDTO(rebelId);
-        rebelAccusationDTO.setAccusations((short) (rebelAccusationDTO.getAccusations()+1));
+        rebelAccusationDTO.setAccusations((short) (rebelAccusationDTO.getAccusations() + 1));
         repository.updateRebel(rebelAccusationDTO);
         return rebelAccusationDTO;
     }
@@ -93,7 +92,7 @@ public class RebelService {
         entity.setLocation(rebelPatchLocationRequestDTO.getLocation());
 
         repository.updateRebelLocation(entity);
-        return fromEntitytoReturnRebelDTO(repository.getRebel(id));
+        return mapEntityToReturnRebelDTO(repository.getRebel(id));
     }
 
 }

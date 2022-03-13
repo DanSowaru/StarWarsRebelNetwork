@@ -1,10 +1,10 @@
 package br.com.letscode.starwarsrebelnetwork.controller;
 
 import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.ReturnAlliesDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.ReportSummaryDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.ReturnTraitorsDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
+import br.com.letscode.starwarsrebelnetwork.enums.RebelStatus;
 import br.com.letscode.starwarsrebelnetwork.service.RebelReportService;
 import br.com.letscode.starwarsrebelnetwork.service.RebelService;
 import org.springframework.http.HttpStatus;
@@ -36,13 +36,13 @@ public class RebelRestController {
     }
 
     @GetMapping("/traitors")
-    public ReturnTraitorsDTO getTraitorsInformation() {
-        return reportService.getTraitorsReport();
+    public ReportSummaryDTO getTraitorsInformation() {
+        return reportService.getSummaryReport(RebelStatus.TRAITOR);
     }
 
     @GetMapping("/allies")
-    public ReturnAlliesDTO getAlliesInformation() {
-        return reportService.getAlliesReport();
+    public ReportSummaryDTO getAlliesInformation() {
+        return reportService.getSummaryReport(RebelStatus.ALLY);
     }
 
     @PostMapping
