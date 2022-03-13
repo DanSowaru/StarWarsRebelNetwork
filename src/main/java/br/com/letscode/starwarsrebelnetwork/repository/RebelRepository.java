@@ -4,6 +4,7 @@ import br.com.letscode.starwarsrebelnetwork.dto.LocalizationDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.RebelAccusationDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
 import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class RebelRepository {
         return rebelEntity;
     }
 
-    public RebelEntity  updateRebel(RebelAccusationDTO rebelAccusationDTO) {
+    public RebelEntity updateRebel(RebelAccusationDTO rebelAccusationDTO) {
         rebelList.stream().filter(rebel -> rebel.getId().equals(rebelAccusationDTO.getId())).findFirst().get().setAccusations(rebelAccusationDTO.getAccusations());
         return null;
     }
@@ -34,7 +35,7 @@ public class RebelRepository {
 
     }
 
-    public static List<RebelEntity> getAll() {
+    public List<RebelEntity> getAll() {
         return rebelList;
     }
 
