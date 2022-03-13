@@ -50,7 +50,7 @@ public class RebelService {
         rebelDTO.setAge(entity.getAge());
         rebelDTO.setGender(entity.getGender());
         rebelDTO.setLocation(entity.getLocation());
-        rebelDTO.setInventory(inventoryService.returnInventoryEntityToInventoryDTO(entity.getInventory()));
+        rebelDTO.setInventory(inventoryService.mapInventoryEntityToInventoryDTO(entity.getInventory()));
         rebelDTO.setAccusations(entity.getAccusations());
 
         return rebelDTO;
