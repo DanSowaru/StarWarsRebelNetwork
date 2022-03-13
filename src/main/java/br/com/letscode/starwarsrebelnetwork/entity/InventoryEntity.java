@@ -7,14 +7,14 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class InventoryEntity {
 
-   private List<InventoryItemEntity> itensEntity;
+    private List<InventoryItemEntity> itensEntity;
 
-   public List<InventoryItemEntity> getAll() {
-      return itensEntity;
-   }
+    public List<InventoryItemEntity> getAll() {
+        return itensEntity;
+    }
 
 }
