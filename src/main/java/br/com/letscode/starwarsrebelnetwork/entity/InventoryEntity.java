@@ -1,5 +1,6 @@
 package br.com.letscode.starwarsrebelnetwork.entity;
 
+import br.com.letscode.starwarsrebelnetwork.enums.Item;
 import lombok.*;
 
 import java.util.List;
@@ -17,4 +18,11 @@ public class InventoryEntity {
         return itensEntity;
     }
 
+    public int getPoints() {
+        return itensEntity.stream().mapToInt(resource -> resource.getItem().getPrice() * resource.getQuantity()).sum();
+    }
+
+    public int getQuantityByItem(Item item) {
+        return itensEntity.stream().filter(resource -> resource.getItem().equals(item)).findFirst().get().getQuantity();
+    }
 }

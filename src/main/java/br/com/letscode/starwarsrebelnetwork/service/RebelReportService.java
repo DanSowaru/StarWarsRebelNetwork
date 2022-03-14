@@ -1,7 +1,9 @@
 package br.com.letscode.starwarsrebelnetwork.service;
 
 import br.com.letscode.starwarsrebelnetwork.dto.ReportSummaryDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.response.ResourcesReportDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
+import br.com.letscode.starwarsrebelnetwork.enums.Item;
 import br.com.letscode.starwarsrebelnetwork.enums.RebelStatus;
 import br.com.letscode.starwarsrebelnetwork.repository.RebelRepository;
 import lombok.AllArgsConstructor;
@@ -34,5 +36,22 @@ public class RebelReportService {
 
     private List<RebelEntity> getRebelList(RebelStatus status) {
         return (status == RebelStatus.ALLY) ? repository.getAlliesList() : repository.getTraitorsList();
+    }
+
+    public ResourcesReportDTO getResourcesReport() {
+        ResourcesReportDTO resources = new ResourcesReportDTO();
+
+        resources.setWeaponAverage( (double) (repository.getAlliesList().stream()
+                .mapToInt(ally -> ally.getInventory().getQuantityByItem(Item.WEAPON)).sum()) / repository.getAlliesList().size());
+        resources.setAmmoAverage( (double) (repository.getAlliesList().stream()
+                .mapToInt(ally -> ally.getInventory().getQuantityByItem(Item.AMMO)).sum()) / repository.getAlliesList().size());
+        resources.setWaterAverage( (double) (repository.getAlliesList().stream()
+                .mapToInt(ally -> ally.getInventory().getQuantityByItem(Item.WATER)).sum()) / repository.getAlliesList().size());
+        resources.setFoodAverage( (double) (repository.getAlliesList().stream()
+                .mapToInt(ally -> ally.getInventory().getQuantityByItem(Item.FOOD)).sum()) / repository.getAlliesList().size());
+        resources.setLostResources(repository.getTraitorsList().stream()
+                .mapToInt(traitor -> traitor.getInventory().getPoints()).sum());
+
+        return resources;
     }
 }

@@ -4,6 +4,7 @@ import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReportSummaryDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.response.ResourcesReportDTO;
 import br.com.letscode.starwarsrebelnetwork.enums.RebelStatus;
 import br.com.letscode.starwarsrebelnetwork.service.RebelReportService;
 import br.com.letscode.starwarsrebelnetwork.service.RebelService;
@@ -43,6 +44,11 @@ public class RebelRestController {
     @GetMapping("/allies")
     public ReportSummaryDTO getAlliesInformation() {
         return reportService.getSummaryReport(RebelStatus.ALLY);
+    }
+
+    @GetMapping("/resources")
+    public ResourcesReportDTO getResourcesInformation() {
+        return reportService.getResourcesReport();
     }
 
     @PostMapping
