@@ -63,6 +63,15 @@ public class RebelRepository {
             }
         }
     }
+
+    public void updateRebelInventory(RebelEntity entity){
+        for (int i = 0; i < rebelList.size(); i++) {
+            if (rebelList.get(i).getId().equals(entity.getId())) {
+                rebelList.get(i).setLocation(entity.getLocation());
+                return;
+            }
+        }
+    }
 }
 
 

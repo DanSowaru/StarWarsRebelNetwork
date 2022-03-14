@@ -2,19 +2,22 @@ package br.com.letscode.starwarsrebelnetwork.controller;
 
 import br.com.letscode.starwarsrebelnetwork.dto.*;
 import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
+import br.com.letscode.starwarsrebelnetwork.entity.InventoryItemEntity;
+import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
 import br.com.letscode.starwarsrebelnetwork.enums.Item;
+import br.com.letscode.starwarsrebelnetwork.repository.RebelRepository;
 import br.com.letscode.starwarsrebelnetwork.service.RebelReportService;
 import br.com.letscode.starwarsrebelnetwork.service.RebelService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/rebels")
@@ -22,10 +25,12 @@ public class RebelRestController {
 
     private final RebelService rebelService;
     private final RebelReportService reportService;
+    private final RebelRepository repository;
 
-    public RebelRestController(RebelService rebelService, RebelReportService reportService) {
+    public RebelRestController(RebelService rebelService, RebelReportService reportService, RebelRepository repository) {
         this.rebelService = rebelService;
         this.reportService = reportService;
+        this.repository = repository;
     }
 
     @GetMapping("/all")
@@ -76,14 +81,14 @@ public class RebelRestController {
                                                                     @PathVariable String secondId,
                                                                     @RequestBody RebelInventoryTradeDTO rebelInventoryTradeDTO) {
 
-        ReturnRebelDTO firstRebel = rebelService.getRebelById(firstId);
-        ReturnRebelDTO secondRebel = rebelService.getRebelById(secondId);
+        RebelEntity firstRebel = repository.getRebel(firstId);
+        RebelEntity secondRebel = repository.getRebel(secondId);
 
         //firstRebelItens = ["AMMO",2, "WEAPON", 1, "WATER", 3]
         //firstRebelTradeItens = ["WATER", 2]
 
-        List<InventoryItemDTO> firstRebelItens = firstRebel.getInventory().getItens(); // PEGANDO TODOS OS ITENS DO INVENTARIO DO PRIMEIRO REBELDE
-        List<InventoryItemDTO> secondRebelItens = secondRebel.getInventory().getItens();
+        List<InventoryItemEntity> firstRebelItens = firstRebel.getInventory().getItensEntity(); // PEGANDO TODOS OS ITENS DO INVENTARIO DO PRIMEIRO REBELDE
+        List<InventoryItemEntity> secondRebelItens = secondRebel.getInventory().getItensEntity();
 
         List<InventoryItemDTO> firstRebelTradeItens = rebelInventoryTradeDTO.getFirstRebelOffer();
         List<InventoryItemDTO> secondRebelTradeItens = rebelInventoryTradeDTO.getSecondRebelOffer();
@@ -113,7 +118,7 @@ public class RebelRestController {
         //ESSA LISTA É A QUE IREMOS TRABALHAR EM CIMA
 
         Map<Item, Integer> firstRebelInventory = new HashMap<Item, Integer>();
-        for(InventoryItemDTO inventoryItem: firstRebelItens){
+        for(InventoryItemEntity inventoryItem: firstRebelItens){
             firstRebelInventory.put(inventoryItem.getItem(), inventoryItem.getQuantity());
         }
 
@@ -158,7 +163,7 @@ public class RebelRestController {
 
         //AGORA APLICO A MESMA LOGICA PARA O SEGUNDO REBELDE COM A OFERTA DO PRIMEIRO
         Map<Item, Integer> secondRebelInventory = new HashMap<Item,Integer>();
-        for(InventoryItemDTO inventoryItem: secondRebel.getInventory().getItens()) {
+        for(InventoryItemEntity inventoryItem: secondRebel.getInventory().getItensEntity()) {
             secondRebelInventory.put(inventoryItem.getItem(), inventoryItem.getQuantity());
         }
 
@@ -195,24 +200,24 @@ public class RebelRestController {
         });
 
         //SALVAR OS NOVOS MAPS(INVENTARIOS) PARA O REPOSITORIO ONDE TEM ENTITY
-        final List<InventoryItemDTO> firstRebelFinalItems = firstRebelInventory.entrySet().stream().map(entry ->{
-            final InventoryItemDTO inventoryItemDTO = new InventoryItemDTO();
+        final List<InventoryItemEntity> firstRebelFinalItems = firstRebelInventory.entrySet().stream().map(entry ->{
+            final InventoryItemEntity inventoryItemEntity = new InventoryItemEntity();
 
-            inventoryItemDTO.setItem(entry.getKey());
-            inventoryItemDTO.setQuantity(entry.getValue());
-            return inventoryItemDTO;
+            inventoryItemEntity.setItem(entry.getKey());
+            inventoryItemEntity.setQuantity(entry.getValue());
+            return inventoryItemEntity;
         }).collect(Collectors.toList());
 
-        final List<InventoryItemDTO> secondRebelFinalItems = secondRebelInventory.entrySet().stream().map(entry -> {
-            final InventoryItemDTO inventoryItemDTO = new InventoryItemDTO();
+        final List<InventoryItemEntity> secondRebelFinalItems = secondRebelInventory.entrySet().stream().map(entry -> {
+            final InventoryItemEntity inventoryItemEntity = new InventoryItemEntity();
 
-            inventoryItemDTO.setItem(entry.getKey());
-            inventoryItemDTO.setQuantity(entry.getValue());
-            return inventoryItemDTO;
+            inventoryItemEntity.setItem(entry.getKey());
+            inventoryItemEntity.setQuantity(entry.getValue());
+            return inventoryItemEntity;
         }).collect(Collectors.toList());
 
-        firstRebel.getInventory().setItens(firstRebelFinalItems);
-        secondRebel.getInventory().setItens(secondRebelFinalItems);
+        firstRebel.getInventory().setItensEntity(firstRebelFinalItems);
+        secondRebel.getInventory().setItensEntity(secondRebelFinalItems);
 
 
 

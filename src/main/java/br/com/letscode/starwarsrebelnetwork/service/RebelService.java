@@ -96,4 +96,6 @@ public class RebelService {
         return fromEntitytoReturnRebelDTO(repository.getRebel(id));
     }
 
+
+
 }
