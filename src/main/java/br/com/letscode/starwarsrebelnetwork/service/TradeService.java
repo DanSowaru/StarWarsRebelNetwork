@@ -9,8 +9,9 @@ import br.com.letscode.starwarsrebelnetwork.enums.Item;
 import br.com.letscode.starwarsrebelnetwork.repository.RebelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.HashMap;
 import java.util.List;
@@ -85,13 +86,15 @@ public class TradeService {
     }
 
 
+
+
     public HttpStatus isOfferEquals(int firstRebelOfferValueSum, int secondRebelOfferValueSum){
         if(firstRebelOfferValueSum != secondRebelOfferValueSum) {
-            return HttpStatus.BAD_REQUEST;
+                return HttpStatus.BAD_REQUEST;
         } else {
-            return null;
-        }
-    }
+                return null;
+            }
+    };
 
     public void firstRebelHashMap (List<InventoryItemEntity> firstRebelInventoryEntity) {
         for(InventoryItemEntity inventoryItem: firstRebelInventoryEntity){

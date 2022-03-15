@@ -1,5 +1,6 @@
 package br.com.letscode.starwarsrebelnetwork.controller;
 
+
 import br.com.letscode.starwarsrebelnetwork.dto.*;
 import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryItemEntity;
@@ -13,10 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rebels")
@@ -80,7 +79,7 @@ public class RebelRestController {
 
     public void postInventoryRebel(@PathVariable String firstId,
                                          @PathVariable String secondId,
-                                         @RequestBody RebelInventoryTradeDTO rebelInventoryTradeDTO) {
+                                         @RequestBody RebelInventoryTradeDTO rebelInventoryTradeDTO){
 
         RebelEntity firstRebel = tradeService.firstRebel(firstId);
         RebelEntity secondRebel = tradeService.secondRebel(secondId);
