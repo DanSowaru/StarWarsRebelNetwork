@@ -8,12 +8,11 @@ import br.com.letscode.starwarsrebelnetwork.enums.Item;
 import br.com.letscode.starwarsrebelnetwork.repository.RebelRepository;
 import br.com.letscode.starwarsrebelnetwork.service.RebelReportService;
 import br.com.letscode.starwarsrebelnetwork.service.RebelService;
+import br.com.letscode.starwarsrebelnetwork.service.TradeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +25,13 @@ public class RebelRestController {
     private final RebelService rebelService;
     private final RebelReportService reportService;
     private final RebelRepository repository;
+    private final TradeService tradeService;
 
-    public RebelRestController(RebelService rebelService, RebelReportService reportService, RebelRepository repository) {
+    public RebelRestController(RebelService rebelService, RebelReportService reportService, RebelRepository repository, TradeService tradeService) {
         this.rebelService = rebelService;
         this.reportService = reportService;
         this.repository = repository;
+        this.tradeService = tradeService;
     }
 
     @GetMapping("/all")
@@ -76,177 +77,43 @@ public class RebelRestController {
     }
 
     @PostMapping("/trade/{firstId}/{secondId}")
-    //ResponseEntity<RebelInventoryTradeDTO>
+
     public void postInventoryRebel(@PathVariable String firstId,
-                                                                    @PathVariable String secondId,
-                                                                    @RequestBody RebelInventoryTradeDTO rebelInventoryTradeDTO) {
+                                         @PathVariable String secondId,
+                                         @RequestBody RebelInventoryTradeDTO rebelInventoryTradeDTO) {
 
-        RebelEntity firstRebel = repository.getRebel(firstId);
-        RebelEntity secondRebel = repository.getRebel(secondId);
+        RebelEntity firstRebel = tradeService.firstRebel(firstId);
+        RebelEntity secondRebel = tradeService.secondRebel(secondId);
 
-        //firstRebelItens = ["AMMO",2, "WEAPON", 1, "WATER", 3]
-        //firstRebelTradeItens = ["WATER", 2]
 
-        List<InventoryItemEntity> firstRebelItens = firstRebel.getInventory().getItensEntity(); // PEGANDO TODOS OS ITENS DO INVENTARIO DO PRIMEIRO REBELDE
-        List<InventoryItemEntity> secondRebelItens = secondRebel.getInventory().getItensEntity();
+        List<InventoryItemEntity> firstRebelItens = tradeService.firstRebelItens(firstRebel);
+        List<InventoryItemEntity> secondRebelItens = tradeService.secondRebelItens(secondRebel);
 
         List<InventoryItemDTO> firstRebelTradeItens = rebelInventoryTradeDTO.getFirstRebelOffer();
         List<InventoryItemDTO> secondRebelTradeItens = rebelInventoryTradeDTO.getSecondRebelOffer();
-        // PEGANDO A LISTA DE ITENS PASSADA NO PARAMETRO DA FUNCAO,
-        //OU SEJA, OS ITENS A SEREM TROCADOS
 
-        final int firstRebelOfferValue = firstRebelTradeItens.stream()
-                // From InventoryItemDTO to int Value
-                //PEGANDO CADA ITEM A SER TROCADO, OLHANDO O PREÇO, MULTIPLICANDO PELA QUANTIDADE E SOMANDO PARA UM TOTAL.
-                .map(offerItem -> offerItem.getItem().getPrice() * offerItem.getQuantity())
-                .mapToInt(item -> item)
-                .sum();
-
-        final int secondRebelOfferValue = secondRebelTradeItens.stream()
-                // From InventoryItemDTO to int Value
-                //PEGANDO CADA ITEM A SER TROCADO, OLHANDO O PREÇO, MULTIPLICANDO PELA QUANTIDADE E SOMANDO PARA UM TOTAL.
-                .map(offerItem -> offerItem.getItem().getPrice() * offerItem.getQuantity())
-                .mapToInt(item -> item)
-                .sum();
-
-        //CONDIÇÃO PARA VER SE OS VALORES SÃO IGUAIS PARA A TROCA
-//        if (firstRebelOfferValue != secondRebelOfferValue) {
-//            return "BAD REQUEST, troca inválida";
-//        }
-
-        //CONSTRUIR UM NOVO HASHMAP PARA GUARDAR OS ITENS DO REBELDE QUE PEGAMOS POR ID firstRebel;
-        //ESSA LISTA É A QUE IREMOS TRABALHAR EM CIMA
-
-        Map<Item, Integer> firstRebelInventory = new HashMap<Item, Integer>();
-        for(InventoryItemEntity inventoryItem: firstRebelItens){
-            firstRebelInventory.put(inventoryItem.getItem(), inventoryItem.getQuantity());
-        }
-
-        //COM A LISTA CRIADA, AGORA É REMOVER OS ITENS DA OFFER. DO PRIMEIRO REBELDE
-        //PEGO A LISTA DE ITENS OFERTADAS ( QUE É PASSADA NO POST ) E PARA CADA ITEM
-        // EU RELACIONO COM A LISTA QUE CRIEI DO INVENTARIO (O MAP) DO REBELDE QUE PEGAMOS POR
-        // ID. AQUI ESTOU APENAS TIRANDO OS ITENS OFERTADOS
-        firstRebelTradeItens.forEach(tradeItem -> {
-            final Item item = tradeItem.getItem();
-
-            int totalQuantity = firstRebelInventory.get(item);
-            int tradeQuantity = tradeItem.getQuantity();
-
-            int newQuantity = totalQuantity - tradeQuantity;
-
-            //AQUI EU DOU UPDATE NO MAP DO INVENTARIO DO PRIMEIRO REBELDE FILTRADO
-            firstRebelInventory.put(item, newQuantity);
-        });
+        final int firstRebelOfferValue = tradeService.firstRebelOfferValueSum(firstRebelTradeItens);
+        final int secondRebelOfferValue = tradeService.secondRebelOfferValueSum(secondRebelTradeItens);
+        tradeService.isOfferEquals(firstRebelOfferValue, secondRebelOfferValue);
 
 
+        tradeService.firstRebelHashMap(firstRebelItens);
+        tradeService.secondRebelHashMap(secondRebelItens);
 
-        //CONSTRUIR UM MAPA PARA O SEGUNDO REBELDE FILTRADO
-
-
-        //ADICIONANDO OS ITENS DA SEGUNDA OFERTA NO MAP DO PRIMEIRO REBELDE FILTRADO
-        secondRebelTradeItens.forEach(tradeItem ->{
-            final Item receivedItem = tradeItem.getItem();
-
-            if(firstRebelInventory.containsKey(receivedItem)) {
-                int receivedQuantity = tradeItem.getQuantity();
-                int previousQuantity = firstRebelInventory.get(receivedItem);
-
-                int newQuantity = previousQuantity + receivedQuantity;
-
-                //UPDATE DO MAP DO PRIMEIRO REBELDE
-                firstRebelInventory.put(receivedItem, newQuantity);
-            } else {
-                firstRebelInventory.put(receivedItem, tradeItem.getQuantity());
-            }
-        });
+        tradeService.subtractOfferedItensFirstRebel(firstRebelTradeItens);
 
 
-        //AGORA APLICO A MESMA LOGICA PARA O SEGUNDO REBELDE COM A OFERTA DO PRIMEIRO
-        Map<Item, Integer> secondRebelInventory = new HashMap<Item,Integer>();
-        for(InventoryItemEntity inventoryItem: secondRebel.getInventory().getItensEntity()) {
-            secondRebelInventory.put(inventoryItem.getItem(), inventoryItem.getQuantity());
-        }
+        tradeService.addOfferedItensSecondRebelInFirstRebelInventory(secondRebelTradeItens);
 
-        //AGORA REMOVO OS ITENS OFERTADOS DA LISTA MAP
-        secondRebelTradeItens.forEach(tradeItem -> {
-            final Item item = tradeItem.getItem();
-
-            int totalQuantity = secondRebelInventory.get(item);
-
-            int tradeQuantity = tradeItem.getQuantity();
-
-            int newQuantity = totalQuantity - tradeQuantity;
-
-            //UPDATE MAP FOR SECOND REBEL
-            secondRebelInventory.put(item, newQuantity);
-        });
-
-
-        //AGORA ADICIONO A OFERTA
-        firstRebelTradeItens.forEach(tradeItem -> {
-            final Item receivedItem = tradeItem.getItem();
-
-            if(secondRebelInventory.containsKey(receivedItem)) {
-                int receivedQuantity = tradeItem.getQuantity();
-                int previousQuantity = secondRebelInventory.get(receivedItem);
-
-                int newQuantity = previousQuantity + receivedQuantity;
-
-                //UPDATE DO MAP
-                secondRebelInventory.put(receivedItem, newQuantity);
-            } else {
-                secondRebelInventory.put(receivedItem, tradeItem.getQuantity());
-            }
-        });
-
-        //SALVAR OS NOVOS MAPS(INVENTARIOS) PARA O REPOSITORIO ONDE TEM ENTITY
-        final List<InventoryItemEntity> firstRebelFinalItems = firstRebelInventory.entrySet().stream().map(entry ->{
-            final InventoryItemEntity inventoryItemEntity = new InventoryItemEntity();
-
-            inventoryItemEntity.setItem(entry.getKey());
-            inventoryItemEntity.setQuantity(entry.getValue());
-            return inventoryItemEntity;
-        }).collect(Collectors.toList());
-
-        final List<InventoryItemEntity> secondRebelFinalItems = secondRebelInventory.entrySet().stream().map(entry -> {
-            final InventoryItemEntity inventoryItemEntity = new InventoryItemEntity();
-
-            inventoryItemEntity.setItem(entry.getKey());
-            inventoryItemEntity.setQuantity(entry.getValue());
-            return inventoryItemEntity;
-        }).collect(Collectors.toList());
-
-        firstRebel.getInventory().setItensEntity(firstRebelFinalItems);
-        secondRebel.getInventory().setItensEntity(secondRebelFinalItems);
+        tradeService.subtractOfferedItensSecondRebel(secondRebelTradeItens);
+        tradeService.addOfferedItensFirstRebelInSecondRebelInventory(firstRebelTradeItens);
 
 
 
 
-
-
-
-
-
-//        List<InventoryItemDTO> finalFirstRebelInventory = firstRebelItens.stream().map(item -> {
-//            Optional<InventoryItemDTO> itemToTrade = firstRebelTradeItens.stream().filter(tradeItem -> tradeItem.getItem().equals(item.getItem())).findFirst();
-//            if (itemToTrade.isEmpty()) {
-//                return item;
-//            } else {
-//                int quantity = item.getQuantity();
-//                int quantityToTrade = itemToTrade.get().getQuantity();
-//
-//                int finalQuantity = quantity - quantityToTrade;
-//                InventoryItemDTO inventory = new InventoryItemDTO();
-//                inventory.setItem(item.getItem());
-//                inventory.setQuantity(finalQuantity);
-//                return inventory;
-//            }
-//
-//        }).collect(Collectors.toList());
-
-
-//        System.out.println("hello");
-//        return ResponseEntity.ok(null);
-
+        List<InventoryItemEntity> finalFirstRebelInventory = tradeService.firstRebelInventoryToInventoryEntity();
+        List<InventoryItemEntity> finalSecondRebelInventory = tradeService.secondRebelInventoryToInventoryEntity();
+        firstRebel.getInventory().setItensEntity(finalFirstRebelInventory);
+        secondRebel.getInventory().setItensEntity(finalSecondRebelInventory);
     }
 }
