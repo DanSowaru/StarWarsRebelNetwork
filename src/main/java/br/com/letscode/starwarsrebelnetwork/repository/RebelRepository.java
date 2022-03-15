@@ -3,6 +3,7 @@ package br.com.letscode.starwarsrebelnetwork.repository;
 import br.com.letscode.starwarsrebelnetwork.dto.LocalizationDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.RebelAccusationDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
+import br.com.letscode.starwarsrebelnetwork.exceptions.IdNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -40,7 +41,11 @@ public class RebelRepository {
     }
 
     public RebelEntity getRebel(String id) {
-        return rebelList.stream().filter(rebel -> rebel.getId().equals(id)).findFirst().get();
+        if(rebelList.stream().filter(rebel -> rebel.getId().equals(id)).findFirst().isPresent()) {
+            return rebelList.stream().filter(rebel -> rebel.getId().equals(id)).findFirst().get();
+        } else {
+            throw new IdNotFoundException("The Rebel with id: " + id + " is not in your army!!!");
+        }
     }
 
     public List<RebelEntity> getTraitorsList() {
