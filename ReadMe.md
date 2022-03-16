@@ -56,7 +56,7 @@ This API was made with Spring Web with Thymeleaf for the quick and clean meeting
 ## How to Run the Project
 
 1. Run the API on a server.
-2. Use a tool like postman, Imsomnia or the Thunderclient extension of VsCode to make the requests;
+2. Use an API platform like Postman, Insomnia or the Thunder Client extension of VsCode to make the requests;
 
 
 ## How to Use the Project
