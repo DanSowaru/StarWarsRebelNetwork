@@ -39,7 +39,7 @@ public class InventoryService {
 
     }
 
-    public InventoryItemDTO returnInventoryItemEntityToInventoryItemDTO(InventoryItemEntity inventoryItemEntity) {
+    public InventoryItemDTO mapInventoryItemEntityToInventoryItemDTO(InventoryItemEntity inventoryItemEntity) {
         InventoryItemDTO dto = new InventoryItemDTO();
 
         dto.setQuantity(inventoryItemEntity.getQuantity());
@@ -48,15 +48,12 @@ public class InventoryService {
         return dto;
     }
 
-    public InventoryDTO returnInventoryEntityToInventoryDTO(InventoryEntity inventoryEntity) {
+    public InventoryDTO mapInventoryEntityToInventoryDTO(InventoryEntity inventoryEntity) {
         List<InventoryItemDTO> collect = inventoryEntity.getAll().stream()
-                .map((this::returnInventoryItemEntityToInventoryItemDTO))
+                .map((this::mapInventoryItemEntityToInventoryItemDTO))
                 .collect(Collectors.toList());
 
-        InventoryDTO dto = new InventoryDTO();
-        dto.setItens(collect);
-
-        return dto;
+        return new InventoryDTO(collect);
     }
 }
 

@@ -1,12 +1,16 @@
 package br.com.letscode.starwarsrebelnetwork.service;
 
-import br.com.letscode.starwarsrebelnetwork.dto.ReturnAlliesDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.ReturnTraitorsDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.ReportSummaryDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.response.ResourcesReportDTO;
+import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
+import br.com.letscode.starwarsrebelnetwork.enums.Item;
+import br.com.letscode.starwarsrebelnetwork.enums.RebelStatus;
 import br.com.letscode.starwarsrebelnetwork.repository.RebelRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,31 +20,38 @@ public class RebelReportService {
     private final RebelService rebelService;
     private final DecimalFormat myFormatter = new DecimalFormat("##.#%");
 
-    public ReturnTraitorsDTO getTraitorsReport() {
-        ReturnTraitorsDTO traitorsDTO = new ReturnTraitorsDTO();
+    public ReportSummaryDTO getSummaryReport(RebelStatus status) {
+        ReportSummaryDTO summaryDTO = new ReportSummaryDTO();
 
-        traitorsDTO.setTraitorsList(repository.getTraitorsList().stream()
-                .map((entity -> rebelService.fromEntitytoReturnRebelDTO(entity)))
+        summaryDTO.setRebelList(getRebelList(status).stream()
+                .map((rebelService::mapEntityToReturnRebelDTO))
                 .collect(Collectors.toList()));
 
-        traitorsDTO.setTotalTraitorsNumber(traitorsDTO.getTraitorsList().size());
-        traitorsDTO.setTraitorsPercentage(myFormatter.format((double)traitorsDTO.getTotalTraitorsNumber() / repository.getAll().size()));
-        traitorsDTO.setRebelsStatus("Traitors");
+        summaryDTO.setTotal(summaryDTO.getRebelList().size());
+        summaryDTO.setPercentage(myFormatter.format((double) summaryDTO.getTotal() / repository.getAll().size()));
+        summaryDTO.setStatus(status);
 
-        return traitorsDTO;
+        return summaryDTO;
     }
 
-    public ReturnAlliesDTO getAlliesReport() {
-        ReturnAlliesDTO alliesDTO = new ReturnAlliesDTO();
+    private List<RebelEntity> getRebelList(RebelStatus status) {
+        return (status == RebelStatus.ALLY) ? repository.getAlliesList() : repository.getTraitorsList();
+    }
 
-        alliesDTO.setAlliesList(repository.getAlliesList().stream()
-                .map(entity -> rebelService.fromEntitytoReturnRebelDTO(entity))
-                .collect(Collectors.toList()));
+    public ResourcesReportDTO getResourcesReport() {
+        ResourcesReportDTO resources = new ResourcesReportDTO();
 
-        alliesDTO.setTotalAlliesNumber(alliesDTO.getAlliesList().size());
-        alliesDTO.setAlliesPercentage(myFormatter.format((double) alliesDTO.getTotalAlliesNumber() / repository.getAll().size()));
-        alliesDTO.setRebelsStatus("Allies");
+        resources.setWeaponAverage( (double) (repository.getAlliesList().stream()
+                .mapToInt(ally -> ally.getInventory().getQuantityByItem(Item.WEAPON)).sum()) / repository.getAlliesList().size());
+        resources.setAmmoAverage( (double) (repository.getAlliesList().stream()
+                .mapToInt(ally -> ally.getInventory().getQuantityByItem(Item.AMMO)).sum()) / repository.getAlliesList().size());
+        resources.setWaterAverage( (double) (repository.getAlliesList().stream()
+                .mapToInt(ally -> ally.getInventory().getQuantityByItem(Item.WATER)).sum()) / repository.getAlliesList().size());
+        resources.setFoodAverage( (double) (repository.getAlliesList().stream()
+                .mapToInt(ally -> ally.getInventory().getQuantityByItem(Item.FOOD)).sum()) / repository.getAlliesList().size());
+        resources.setLostResources(repository.getTraitorsList().stream()
+                .mapToInt(traitor -> traitor.getInventory().getPoints()).sum());
 
-        return alliesDTO;
+        return resources;
     }
 }

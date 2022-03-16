@@ -1,12 +1,16 @@
 package br.com.letscode.starwarsrebelnetwork.controller;
 
-
 import br.com.letscode.starwarsrebelnetwork.dto.*;
-import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryItemEntity;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
 import br.com.letscode.starwarsrebelnetwork.enums.Item;
 import br.com.letscode.starwarsrebelnetwork.repository.RebelRepository;
+import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.ReportSummaryDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.response.ResourcesReportDTO;
+import br.com.letscode.starwarsrebelnetwork.enums.RebelStatus;
 import br.com.letscode.starwarsrebelnetwork.service.RebelReportService;
 import br.com.letscode.starwarsrebelnetwork.service.RebelService;
 import br.com.letscode.starwarsrebelnetwork.service.TradeService;
@@ -44,13 +48,18 @@ public class RebelRestController {
     }
 
     @GetMapping("/traitors")
-    public ReturnTraitorsDTO getTraitorsInformation() {
-        return reportService.getTraitorsReport();
+    public ReportSummaryDTO getTraitorsInformation() {
+        return reportService.getSummaryReport(RebelStatus.TRAITOR);
     }
 
     @GetMapping("/allies")
-    public ReturnAlliesDTO getAlliesInformation() {
-        return reportService.getAlliesReport();
+    public ReportSummaryDTO getAlliesInformation() {
+        return reportService.getSummaryReport(RebelStatus.ALLY);
+    }
+
+    @GetMapping("/resources")
+    public ResourcesReportDTO getResourcesInformation() {
+        return reportService.getResourcesReport();
     }
 
     @PostMapping
