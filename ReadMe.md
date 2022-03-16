@@ -49,7 +49,6 @@ This API was made with Spring Web with Thymeleaf for the quick and clean meeting
 ## Frameworks, Platforms and Libraries
 
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
-![Thymeleaf](https://img.shields.io/badge/Thymeleaf-%23005C0F.svg?style=for-the-badge&logo=Thymeleaf&logoColor=white)
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 
 
@@ -61,7 +60,7 @@ This API was made with Spring Web with Thymeleaf for the quick and clean meeting
 
 ## How to Use the Project
 
-After running it, you can use HTTP requests to use the database.
+After running it, you can use HTTP requests to consume the database.
 
 >`http://localhost:8080/rebels`
 >
@@ -73,9 +72,11 @@ After running it, you can use HTTP requests to use the database.
 
 >`http://localhost:8080/rebels/${id}`
 > 
-> This get request return the rebel corresponding with the id provided as parameter
-> 
-> A patch request on this Id will allow to update fields in a rebel soldier entry
+> This get request returns the rebel corresponding with the id provided as parameter
+
+>`http://localhost:8080/rebels/location/${id}`
+>
+> A patch request on this Id will allow to update the last location the soldier was at
 
 >`http://localhost:8080/rebels/traitors`
 > 
@@ -83,9 +84,17 @@ After running it, you can use HTTP requests to use the database.
 
 >`http://localhost:8080/rebels/allies`
 > 
-> This get request return the list of the current active rebels, without any rebel that was labeled as traitor
+> This get request returns the list of the current active rebels, without any rebel that was labeled as traitor
 
->`http://localhost:8080/`
+>`http://localhost:8080/rebels/resources`
+>
+>This get request returns a report with the average resources (Weapon, Ammo, Water and Food) per active rebel in the army. It also returns the point (cost of resources)
+>lost because of the rebels labeled as traitors
+
+>`http://localhost:8080/rebels/trade/${firstId}/${secondId}`
+>
+>A Post request that executes a trade between two rebels. The trade will only be completed if the ids are different (two different rebels), if any of them are traitors and if
+>the resource total value from each rebel offer are the same
 
 
 
