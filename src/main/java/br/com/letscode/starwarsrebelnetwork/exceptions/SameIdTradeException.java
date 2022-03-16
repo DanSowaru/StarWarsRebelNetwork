@@ -5,10 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class IdNotFoundException extends RuntimeException{
+public class SameIdTradeException extends RuntimeException {
     private String returnMessage;
 
-    public IdNotFoundException(String returnMessage) {
+    public SameIdTradeException(String returnMessage) {
         this.returnMessage = returnMessage;
     }
 
