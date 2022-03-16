@@ -60,7 +60,29 @@ This API was made with Spring Web with Thymeleaf for the quick and clean meeting
 
 After running it, you can use HTTP requests to use the database.
 
-* http://localhost/rebels/all
+>`http://localhost:8080/rebels`
+>
+>A Post request with a new Rebel will create a new entry in theRebel repository
+
+> `http://localhost:8080/rebels/all`
+>
+>This request returns the current rebel lis stored in the database
+
+>`http://localhost:8080/rebels/${id}`
+> 
+> This get request return the rebel corresponding with the id provided as parameter
+> 
+> A patch request on this Id will allow to update fields in a rebel soldier entry
+
+>`http://localhost:8080/rebels/traitors`
+> 
+> This get request will return a list of all rebel soldiers that were accused of being traitors 3 times or more by other soldiers, thus acquiring the "traitor" label
+
+>`http://localhost:8080/rebels/allies`
+> 
+> This get request return the list of the current active rebels, without any rebel that was labeled as traitor
+
+>`http://localhost:8080/`
 
 
 ## Credits
