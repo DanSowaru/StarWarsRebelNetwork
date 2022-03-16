@@ -55,6 +55,9 @@ This API was made with Spring Web with Thymeleaf for the quick and clean meeting
 
 ## How to Run the Project
 
+1. Run the API on a server.
+2. Use a tool like postman, Imsomnia or the Thunderclient extension of VsCode to make the requests;
+
 
 ## How to Use the Project
 
@@ -83,10 +86,6 @@ After running it, you can use HTTP requests to use the database.
 > This get request return the list of the current active rebels, without any rebel that was labeled as traitor
 
 >`http://localhost:8080/`
-
-
-## Credits
-
 
 
 
