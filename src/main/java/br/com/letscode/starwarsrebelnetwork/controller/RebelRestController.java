@@ -3,8 +3,6 @@ package br.com.letscode.starwarsrebelnetwork.controller;
 import br.com.letscode.starwarsrebelnetwork.dto.*;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryItemEntity;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
-import br.com.letscode.starwarsrebelnetwork.enums.Item;
-import br.com.letscode.starwarsrebelnetwork.repository.RebelRepository;
 import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReportSummaryDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
@@ -27,13 +25,11 @@ public class RebelRestController {
 
     private final RebelService rebelService;
     private final RebelReportService reportService;
-    private final RebelRepository repository;
     private final TradeService tradeService;
 
-    public RebelRestController(RebelService rebelService, RebelReportService reportService, RebelRepository repository, TradeService tradeService) {
+    public RebelRestController(RebelService rebelService, RebelReportService reportService, TradeService tradeService) {
         this.rebelService = rebelService;
         this.reportService = reportService;
-        this.repository = repository;
         this.tradeService = tradeService;
     }
 
@@ -43,8 +39,8 @@ public class RebelRestController {
     }
 
     @GetMapping("/{id}")
-    public ReturnRebelDTO getRebelDTO(@PathVariable("id") String id) {
-        return rebelService.getRebelById(id);
+    public ResponseEntity<ReturnRebelDTO> getRebelDTO(@PathVariable("id") String id) {
+        return new ResponseEntity(rebelService.getRebelById(id), HttpStatus.OK);
     }
 
     @GetMapping("/traitors")
@@ -76,7 +72,7 @@ public class RebelRestController {
         this.rebelService.accuseRebel(rebelID);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/location/{id}")
     public ResponseEntity<ReturnRebelDTO> patchRebelLocation(@PathVariable String id, @RequestBody RebelPatchLocationRequestDTO rebelPatchLocationRequestDTO) {
 
         ReturnRebelDTO rebelDTO = rebelService.update(id, rebelPatchLocationRequestDTO);
@@ -93,6 +89,8 @@ public class RebelRestController {
         RebelEntity firstRebel = tradeService.firstRebel(firstId);
         RebelEntity secondRebel = tradeService.secondRebel(secondId);
 
+        tradeService.checkTransactionIds(firstRebel, secondRebel);
+        tradeService.checkTraitors(firstRebel, secondRebel);
 
         List<InventoryItemEntity> firstRebelItens = tradeService.firstRebelItens(firstRebel);
         List<InventoryItemEntity> secondRebelItens = tradeService.secondRebelItens(secondRebel);

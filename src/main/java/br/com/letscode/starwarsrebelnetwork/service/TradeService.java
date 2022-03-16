@@ -6,6 +6,10 @@ import br.com.letscode.starwarsrebelnetwork.dto.RebelInventoryTradeDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryItemEntity;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
 import br.com.letscode.starwarsrebelnetwork.enums.Item;
+import br.com.letscode.starwarsrebelnetwork.exceptions.IdNotFoundException;
+import br.com.letscode.starwarsrebelnetwork.exceptions.NotEqualTradeSumException;
+import br.com.letscode.starwarsrebelnetwork.exceptions.SameIdTradeException;
+import br.com.letscode.starwarsrebelnetwork.exceptions.TraitorTradeException;
 import br.com.letscode.starwarsrebelnetwork.repository.RebelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +32,17 @@ public class TradeService {
     public final HashMap<Item, Integer> secondRebelInventory;
 
 
+    public void checkTransactionIds(RebelEntity firstRebel, RebelEntity secondRebel) {
+        if (firstRebel.getId().equals(secondRebel.getId())) {
+            throw new SameIdTradeException("The trade cannot be completed. A Rebel cannot trade with HIMSELF!");
+        }
+    }
+
+    public void checkTraitors(RebelEntity firstRebel, RebelEntity secondRebel) {
+        if ((firstRebel.getAccusations() > 2) || (secondRebel.getAccusations() > 2)) {
+            throw new TraitorTradeException("The trade cannot be completed. Rebel tagged as TRAITOR!", firstRebel.getId(), secondRebel.getId(), firstRebel.getAccusations(), secondRebel.getAccusations());
+        }
+    }
 
     public RebelEntity firstRebel(String firstId) {
         RebelEntity firstRebel = repository.getRebel(firstId);
@@ -66,14 +81,10 @@ public class TradeService {
         return secondRebelTradeItens;
     }
 
-
-
     public List<InventoryItemEntity> secondRebelItens(RebelEntity secondRebel) {
         List<InventoryItemEntity> secondRebelItens = secondRebel.getInventory().getItensEntity();
         return secondRebelItens;
     }
-
-
 
     public int secondRebelOfferValueSum (List<InventoryItemDTO> secondRebelTradeItens) {
         int secondRebelOffer = secondRebelTradeItens.stream()
@@ -85,12 +96,9 @@ public class TradeService {
         return secondRebelOffer;
     }
 
-
-
-
     public HttpStatus isOfferEquals(int firstRebelOfferValueSum, int secondRebelOfferValueSum){
         if(firstRebelOfferValueSum != secondRebelOfferValueSum) {
-                return HttpStatus.BAD_REQUEST;
+                throw new NotEqualTradeSumException("Offer values don't match. The trade cannot be completed!", firstRebelOfferValueSum, secondRebelOfferValueSum);
         } else {
                 return null;
             }
@@ -140,7 +148,6 @@ public class TradeService {
         });
 
     }
-
 
     public void subtractOfferedItensSecondRebel (List<InventoryItemDTO> secondRebelOfferedItens) {
         secondRebelOfferedItens.forEach(tradeItem -> {
