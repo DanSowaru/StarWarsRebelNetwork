@@ -104,7 +104,8 @@ After running it, you can use HTTP requests to consume the database.
 
 ## API Structure
 
->The structure of the API can be consulted after you run the program in the follow adress: http://localhost:8080/starwars/swagger-ui/index.html
+>The structure of the API can be consulted after you run the program in the follow adress: 
+>http://localhost:8080/starwars/swagger-ui/index.html
 >It was build using Swagger
 
 
