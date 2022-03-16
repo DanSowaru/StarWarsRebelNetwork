@@ -24,7 +24,8 @@
 5. [Frameworks, Platforms and Libraries](#frameworks,-platforms-and-libraries)
 6. [How to Run the Project](#how-to-run-the-project)
 7. [How to Use the project](#how-to-use-the-project)
-8. [Credits](#credits)
+8. [API Structure](#api-structure)
+9. [Credits](#credits)
 
 
 ## About
@@ -74,6 +75,11 @@ After running it, you can use HTTP requests to consume the database.
 > 
 > This get request returns the rebel corresponding with the id provided as parameter
 
+>`http://localhost:8080/rebels/`
+>
+> A patch request that will report a specific rebel. If a rebel accumulates 3 or more accusations, it will be labeled as a traitor and it wount be able to trade items with
+> the others
+
 >`http://localhost:8080/rebels/location/${id}`
 >
 > A patch request on this Id will allow to update the last location the soldier was at
@@ -96,5 +102,9 @@ After running it, you can use HTTP requests to consume the database.
 >A Post request that executes a trade between two rebels. The trade will only be completed if the ids are different (two different rebels), if any of them are traitors and if
 >the resource total value from each rebel offer are the same
 
+## API Structure
+
+>The structure of the API can be consulted after you run the program in the follow adress: http://localhost:8080/starwars/swagger-ui/index.html
+>It was build using Swagger
 
 
