@@ -34,8 +34,10 @@ This is an API of a fictional network trade and comunication system for members 
 This API was made with Spring Web with Thymeleaf for the quick and clean meeting with the MVC standard, Maven with Lombok for the straight implementation of the constructors, getters, setters and other regular functions of classes, and Wrapper for the testing.
 
 ## Project Team
- [Amanda Amabili](https://github.com/amandaamabili),
-[Aramiz Moura](https://github.com/aramiz-moura), [Danilo Soares](https://github.com/dan-sowaru), [Rubens Souza](https://github.com/RubensPS)
+ * [Amanda Amabili](https://github.com/amandaamabili)
+ * [Aramiz Moura](https://github.com/aramiz-moura) 
+ * [Danilo Soares](https://github.com/dan-sowaru) 
+ * [Rubens Souza](https://github.com/RubensPS)
 
 ## IDEs/Editors
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
@@ -51,14 +53,15 @@ This API was made with Spring Web with Thymeleaf for the quick and clean meeting
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 
 
-	
-
-
-
-
 ## How to Run the Project
 
+
 ## How to Use the Project
+
+After running it, you can use HTTP requests to use the database.
+
+* http://localhost/rebels/all
+
 
 ## Credits
 
