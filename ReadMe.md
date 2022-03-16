@@ -5,6 +5,7 @@
 ![](https://img.shields.io/github/commit-activity/m/dan-sowaru/StarWarsRebelNetwork)
 ![](https://img.shields.io/badge/test%20covered-yes-success)
 ![](https://img.shields.io/badge/project%20members-4-blueviolet)
+[![Visits Badge](https://badges.pufler.dev/visits/dan-sowaru/StarWarsRebelNetwork)](https://badges.pufler.dev)
 ![]()
 ![]()
 ![]()
