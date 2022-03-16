@@ -32,7 +32,7 @@
 
 This is an API of a fictional network trade and comunication system for members of the Rebel Alliance faction of the Star Wars franchise. This interface is responsible for basic CRUD operations of rebel soldiers in a database and providing some interactions between them, while also providing reports about their activity stats.
 
-This API was made with Spring Web with Thymeleaf for the quick and clean meeting with the MVC standard, Maven with Lombok for the straight implementation of the constructors, getters, setters and other regular functions of classes, Swagger was used to document the API endpoints, and finally JUnit e Mockito used for testings.
+This API was made with Spring Boot and Spring Web for the quick and clean meeting with the MVC standard, Maven with Lombok for the straight implementation of the constructors, getters, setters and other regular functions of classes, Swagger was used to document the API endpoints, and finally JUnit e Mockito used for testings.
 
 ## Project Team
  * [Amanda Amabili](https://github.com/amandaamabili)
