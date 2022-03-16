@@ -95,4 +95,6 @@ public class RebelService {
         return mapEntityToReturnRebelDTO(repository.getRebel(id));
     }
 
+
+
 }
