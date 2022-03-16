@@ -1,8 +1,27 @@
 
 # Star Wars Rebel Network API
 
-## Badges
-	/github/directory-file-count/dan-sowaru/StarWarsRebelAPI?type=dir
+![](https://img.shields.io/github/repo-size/dan-sowaru/StarWarsRebelNetwork)
+![](https://img.shields.io/github/commit-activity/m/dan-sowaru/StarWarsRebelNetwork)
+![](https://img.shields.io/badge/test%20covered-yes-success)
+![](https://img.shields.io/badge/project%20members-4-blueviolet)
+![]()
+![]()
+![]()
+![]()
+![]()
+![]()
+![]()
+![]()
+![]()
+
+
+## Project Team
+ [Amanda Amabili](https://github.com/amandaamabili),
+[Aramiz Moura](https://github.com/aramiz-moura), [Danilo Soares](https://github.com/dan-sowaru), [Rubens Souza](https://github.com/RubensPS)
+
+
+	
 
 ## About
 
