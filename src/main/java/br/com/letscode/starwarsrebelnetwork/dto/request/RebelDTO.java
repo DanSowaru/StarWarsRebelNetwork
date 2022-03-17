@@ -1,21 +1,21 @@
-package br.com.letscode.starwarsrebelnetwork.dto;
+package br.com.letscode.starwarsrebelnetwork.dto.request;
 
 import br.com.letscode.starwarsrebelnetwork.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter
 @Setter
-public class ReturnRebelDTO {
+@AllArgsConstructor
+public class RebelDTO {
 
-    private String id;
+
     private String name;
     private String age;
     private Gender gender;
     private LocalizationDTO location;
     private InventoryDTO inventory;
     private Short accusations;
-
-
 }

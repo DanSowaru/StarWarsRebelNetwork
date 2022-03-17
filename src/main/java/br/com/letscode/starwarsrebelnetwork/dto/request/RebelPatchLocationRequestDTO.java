@@ -1,6 +1,5 @@
 package br.com.letscode.starwarsrebelnetwork.dto.request;
 
-import br.com.letscode.starwarsrebelnetwork.dto.LocalizationDTO;
 import lombok.Getter;
 import lombok.Setter;
 

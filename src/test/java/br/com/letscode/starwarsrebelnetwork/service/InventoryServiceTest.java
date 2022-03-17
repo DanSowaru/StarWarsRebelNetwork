@@ -1,7 +1,7 @@
 package br.com.letscode.starwarsrebelnetwork.service;
 
-import br.com.letscode.starwarsrebelnetwork.dto.InventoryDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.InventoryItemDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.InventoryDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.InventoryItemDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryEntity;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryItemEntity;
 import br.com.letscode.starwarsrebelnetwork.enums.Item;

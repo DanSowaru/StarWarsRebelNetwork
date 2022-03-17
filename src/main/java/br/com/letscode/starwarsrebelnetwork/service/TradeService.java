@@ -1,22 +1,17 @@
 package br.com.letscode.starwarsrebelnetwork.service;
 
-
-import br.com.letscode.starwarsrebelnetwork.dto.InventoryItemDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.RebelInventoryTradeDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.InventoryItemDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.RebelInventoryTradeDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryItemEntity;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
 import br.com.letscode.starwarsrebelnetwork.enums.Item;
-import br.com.letscode.starwarsrebelnetwork.exceptions.IdNotFoundException;
 import br.com.letscode.starwarsrebelnetwork.exceptions.NotEqualTradeSumException;
 import br.com.letscode.starwarsrebelnetwork.exceptions.SameIdTradeException;
 import br.com.letscode.starwarsrebelnetwork.exceptions.TraitorTradeException;
 import br.com.letscode.starwarsrebelnetwork.repository.RebelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;

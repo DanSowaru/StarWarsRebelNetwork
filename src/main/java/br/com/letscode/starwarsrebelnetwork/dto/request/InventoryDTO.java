@@ -1,6 +1,5 @@
-package br.com.letscode.starwarsrebelnetwork.dto;
+package br.com.letscode.starwarsrebelnetwork.dto.request;
 
-import br.com.letscode.starwarsrebelnetwork.enums.Item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,14 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class InventoryDTO {
 
-
     private List<InventoryItemDTO> itens;
-
-
-    public List<InventoryItemDTO> getAll() {
-        return itens;
-    }
-
-
 
 }

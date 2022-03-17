@@ -1,4 +1,4 @@
-package br.com.letscode.starwarsrebelnetwork.dto;
+package br.com.letscode.starwarsrebelnetwork.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,8 +13,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class RebelInventoryTradeDTO {
-
-
 
     private List<InventoryItemDTO> firstRebelOffer;
     private List<InventoryItemDTO> secondRebelOffer;
