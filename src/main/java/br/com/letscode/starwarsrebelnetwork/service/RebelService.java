@@ -1,8 +1,8 @@
 package br.com.letscode.starwarsrebelnetwork.service;
 
-import br.com.letscode.starwarsrebelnetwork.dto.RebelAccusationDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.RebelAccusationDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.RebelDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.response.ReturnRebelDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
 import br.com.letscode.starwarsrebelnetwork.repository.RebelRepository;
@@ -20,15 +20,13 @@ public class RebelService {
     private final InventoryService inventoryService;
 
     public List<ReturnRebelDTO> listAllRebels() {
-        List<ReturnRebelDTO> returnList = repository.getAll().stream()
-                .map((entidade -> fromEntitytoReturnRebelDTO(entidade)))
+
+        return repository.getAll().stream()
+                .map((this::mapEntityToReturnRebelDTO))
                 .collect(Collectors.toList());
-
-        return returnList;
     }
-
-
-    public void newRebel(RebelDTO rebelDTO) {
+    
+    public ReturnRebelDTO newRebel(RebelDTO rebelDTO) {
         RebelEntity entity = new RebelEntity();
 
         entity.setName(rebelDTO.getName());
@@ -38,46 +36,33 @@ public class RebelService {
         entity.setInventory(inventoryService.inventoryDTOToInventoryEntity(rebelDTO.getInventory()));
         entity.setAccusations(rebelDTO.getAccusations());
 
-        RebelEntity rebelEntityDataSaved = repository.saveRebelData(entity);
+        repository.saveRebelData(entity);
 
-        //TODO: FAZER O RETORNO DO REBEL SALVO;
+        return mapEntityToReturnRebelDTO(repository.getRebel(entity.getId()));
     }
 
-    public ReturnRebelDTO fromEntitytoReturnRebelDTO(RebelEntity entity) {
+    public ReturnRebelDTO mapEntityToReturnRebelDTO(RebelEntity entity) {
         ReturnRebelDTO rebelDTO = new ReturnRebelDTO();
         rebelDTO.setId(entity.getId());
         rebelDTO.setName(entity.getName());
         rebelDTO.setAge(entity.getAge());
         rebelDTO.setGender(entity.getGender());
         rebelDTO.setLocation(entity.getLocation());
-        rebelDTO.setInventory(inventoryService.returnInventoryEntityToInventoryDTO(entity.getInventory()));
+        rebelDTO.setInventory(inventoryService.mapInventoryEntityToInventoryDTO(entity.getInventory()));
         rebelDTO.setAccusations(entity.getAccusations());
 
         return rebelDTO;
     }
 
-    public RebelEntity fromRebelDtoToRebelEntity(RebelDTO rebelDTO) {
-        RebelEntity entity = new RebelEntity();
-
-        entity.setName(rebelDTO.getName());
-        entity.setAge(rebelDTO.getAge());
-        entity.setGender(rebelDTO.getGender());
-        entity.setLocation(rebelDTO.getLocation());
-        entity.setInventory(inventoryService.inventoryDTOToInventoryEntity(rebelDTO.getInventory()));
-        entity.setAccusations(rebelDTO.getAccusations());
-
-        return entity;
-    }
-
     public ReturnRebelDTO getRebelById(String rebelId) {
         RebelEntity rebelEntity = repository.getRebel(rebelId);
-        return fromEntitytoReturnRebelDTO(rebelEntity);
+        return mapEntityToReturnRebelDTO(rebelEntity);
     }
 
     public RebelAccusationDTO accuseRebel(String rebelId) {
         RebelEntity rebelEntity = repository.getRebel(rebelId);
         RebelAccusationDTO rebelAccusationDTO = fromEntitytoAcsusationDTO(rebelId);
-        rebelAccusationDTO.setAccusations((short) (rebelAccusationDTO.getAccusations()+1));
+        rebelAccusationDTO.setAccusations((short) (rebelAccusationDTO.getAccusations() + 1));
         repository.updateRebel(rebelAccusationDTO);
         return rebelAccusationDTO;
     }
@@ -93,7 +78,9 @@ public class RebelService {
         entity.setLocation(rebelPatchLocationRequestDTO.getLocation());
 
         repository.updateRebelLocation(entity);
-        return fromEntitytoReturnRebelDTO(repository.getRebel(id));
+        return mapEntityToReturnRebelDTO(repository.getRebel(id));
     }
+
+
 
 }

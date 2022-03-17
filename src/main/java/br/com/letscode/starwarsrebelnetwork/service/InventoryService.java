@@ -1,7 +1,7 @@
 package br.com.letscode.starwarsrebelnetwork.service;
 
-import br.com.letscode.starwarsrebelnetwork.dto.InventoryDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.InventoryItemDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.InventoryDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.InventoryItemDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryEntity;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryItemEntity;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class InventoryService {
 
     public InventoryEntity inventoryDTOToInventoryEntity(InventoryDTO inventoryDTO) {
 
-        List<InventoryItemEntity> collect = inventoryDTO.getAll().stream()
+        List<InventoryItemEntity> collect = inventoryDTO.getItens().stream()
                 .map((this::inventoryItemDTOToInventoryItemEntity))
                 .collect(Collectors.toList());
         InventoryEntity entity = new InventoryEntity();
@@ -39,7 +39,7 @@ public class InventoryService {
 
     }
 
-    public InventoryItemDTO returnInventoryItemEntityToInventoryItemDTO(InventoryItemEntity inventoryItemEntity) {
+    public InventoryItemDTO mapInventoryItemEntityToInventoryItemDTO(InventoryItemEntity inventoryItemEntity) {
         InventoryItemDTO dto = new InventoryItemDTO();
 
         dto.setQuantity(inventoryItemEntity.getQuantity());
@@ -48,15 +48,12 @@ public class InventoryService {
         return dto;
     }
 
-    public InventoryDTO returnInventoryEntityToInventoryDTO(InventoryEntity inventoryEntity) {
+    public InventoryDTO mapInventoryEntityToInventoryDTO(InventoryEntity inventoryEntity) {
         List<InventoryItemDTO> collect = inventoryEntity.getAll().stream()
-                .map((this::returnInventoryItemEntityToInventoryItemDTO))
+                .map((this::mapInventoryItemEntityToInventoryItemDTO))
                 .collect(Collectors.toList());
 
-        InventoryDTO dto = new InventoryDTO();
-        dto.setItens(collect);
-
-        return dto;
+        return new InventoryDTO(collect);
     }
 }
 

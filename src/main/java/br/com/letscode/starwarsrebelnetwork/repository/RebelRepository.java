@@ -1,9 +1,8 @@
 package br.com.letscode.starwarsrebelnetwork.repository;
 
-import br.com.letscode.starwarsrebelnetwork.dto.LocalizationDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.RebelAccusationDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.RebelAccusationDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
+import br.com.letscode.starwarsrebelnetwork.exceptions.IdNotFoundException;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ public class RebelRepository {
     private static List<RebelEntity> rebelList = new ArrayList();
     private int id = 1;
 
-
     public RebelEntity saveRebelData(RebelEntity rebelEntity) {
         rebelEntity.setId(String.valueOf(id));
         rebelList.add(rebelEntity);
@@ -24,23 +22,21 @@ public class RebelRepository {
         return rebelEntity;
     }
 
-    public RebelEntity  updateRebel(RebelAccusationDTO rebelAccusationDTO) {
+    public RebelEntity updateRebel(RebelAccusationDTO rebelAccusationDTO) {
         rebelList.stream().filter(rebel -> rebel.getId().equals(rebelAccusationDTO.getId())).findFirst().get().setAccusations(rebelAccusationDTO.getAccusations());
         return null;
     }
 
-    public RebelEntity updateRebel(LocalizationDTO localizationDTO) {
-        rebelList.stream().filter(rebel -> rebel.getId().equals(localizationDTO.getId())).findFirst().get().setLocation(localizationDTO);
-        return null;
-
-    }
-
-    public static List<RebelEntity> getAll() {
+    public List<RebelEntity> getAll() {
         return rebelList;
     }
 
     public RebelEntity getRebel(String id) {
-        return rebelList.stream().filter(rebel -> rebel.getId().equals(id)).findFirst().get();
+        if(rebelList.stream().filter(rebel -> rebel.getId().equals(id)).findFirst().isPresent()) {
+            return rebelList.stream().filter(rebel -> rebel.getId().equals(id)).findFirst().get();
+        } else {
+            throw new IdNotFoundException("The Rebel with id: " + id + " is not in your army!!!");
+        }
     }
 
     public List<RebelEntity> getTraitorsList() {
@@ -63,6 +59,7 @@ public class RebelRepository {
             }
         }
     }
+
 }
 
 
