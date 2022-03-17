@@ -1,6 +1,5 @@
-package br.com.letscode.starwarsrebelnetwork.dto;
+package br.com.letscode.starwarsrebelnetwork.dto.request;
 
-import br.com.letscode.starwarsrebelnetwork.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

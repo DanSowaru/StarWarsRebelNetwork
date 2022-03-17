@@ -1,4 +1,4 @@
-package br.com.letscode.starwarsrebelnetwork.dto;
+package br.com.letscode.starwarsrebelnetwork.dto.response;
 
 import br.com.letscode.starwarsrebelnetwork.enums.RebelStatus;
 import lombok.Getter;

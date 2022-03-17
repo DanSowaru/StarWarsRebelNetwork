@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InventoryItemEntity {
 
-
     private Item item;
     private int quantity;
 }

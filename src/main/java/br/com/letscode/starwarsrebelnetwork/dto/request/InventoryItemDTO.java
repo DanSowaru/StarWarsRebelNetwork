@@ -1,4 +1,4 @@
-package br.com.letscode.starwarsrebelnetwork.dto;
+package br.com.letscode.starwarsrebelnetwork.dto.request;
 
 import br.com.letscode.starwarsrebelnetwork.enums.Item;
 import lombok.AllArgsConstructor;

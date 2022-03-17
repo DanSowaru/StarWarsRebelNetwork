@@ -1,11 +1,12 @@
 package br.com.letscode.starwarsrebelnetwork.controller;
 
-import br.com.letscode.starwarsrebelnetwork.dto.*;
+import br.com.letscode.starwarsrebelnetwork.dto.request.InventoryItemDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.RebelInventoryTradeDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryItemEntity;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
-import br.com.letscode.starwarsrebelnetwork.dto.RebelDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.ReportSummaryDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.ReturnRebelDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.RebelDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.response.ReportSummaryDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.response.ReturnRebelDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.request.RebelPatchLocationRequestDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.response.ResourcesReportDTO;
 import br.com.letscode.starwarsrebelnetwork.enums.RebelStatus;
@@ -60,12 +61,12 @@ public class RebelRestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void newRebel(@RequestBody RebelDTO rebelDTO) {
+    public ReturnRebelDTO newRebel(@RequestBody RebelDTO rebelDTO) {
 
-        this.rebelService.newRebel(rebelDTO);
+        return this.rebelService.newRebel(rebelDTO);
     }
 
-    @PatchMapping
+    @PatchMapping("/accusation")
     @ResponseStatus(HttpStatus.OK)
     public void accuseRebel(@RequestBody String rebelID) {
 

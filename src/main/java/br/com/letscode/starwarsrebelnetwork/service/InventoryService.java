@@ -1,7 +1,7 @@
 package br.com.letscode.starwarsrebelnetwork.service;
 
-import br.com.letscode.starwarsrebelnetwork.dto.InventoryDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.InventoryItemDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.InventoryDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.InventoryItemDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryEntity;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryItemEntity;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class InventoryService {
 
     public InventoryEntity inventoryDTOToInventoryEntity(InventoryDTO inventoryDTO) {
 
-        List<InventoryItemEntity> collect = inventoryDTO.getAll().stream()
+        List<InventoryItemEntity> collect = inventoryDTO.getItens().stream()
                 .map((this::inventoryItemDTOToInventoryItemEntity))
                 .collect(Collectors.toList());
         InventoryEntity entity = new InventoryEntity();

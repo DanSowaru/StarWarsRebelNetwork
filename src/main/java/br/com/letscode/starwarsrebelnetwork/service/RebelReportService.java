@@ -1,6 +1,6 @@
 package br.com.letscode.starwarsrebelnetwork.service;
 
-import br.com.letscode.starwarsrebelnetwork.dto.ReportSummaryDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.response.ReportSummaryDTO;
 import br.com.letscode.starwarsrebelnetwork.dto.response.ResourcesReportDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
 import br.com.letscode.starwarsrebelnetwork.enums.Item;

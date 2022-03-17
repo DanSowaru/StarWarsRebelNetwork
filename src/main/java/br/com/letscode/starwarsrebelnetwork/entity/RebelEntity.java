@@ -1,8 +1,6 @@
 package br.com.letscode.starwarsrebelnetwork.entity;
 
-
-
-import br.com.letscode.starwarsrebelnetwork.dto.LocalizationDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.LocalizationDTO;
 import br.com.letscode.starwarsrebelnetwork.enums.Gender;
 import lombok.Data;
 

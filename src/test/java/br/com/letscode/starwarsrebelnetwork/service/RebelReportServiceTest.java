@@ -1,7 +1,7 @@
 package br.com.letscode.starwarsrebelnetwork.service;
 
-import br.com.letscode.starwarsrebelnetwork.dto.LocalizationDTO;
-import br.com.letscode.starwarsrebelnetwork.dto.ReportSummaryDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.request.LocalizationDTO;
+import br.com.letscode.starwarsrebelnetwork.dto.response.ReportSummaryDTO;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryEntity;
 import br.com.letscode.starwarsrebelnetwork.entity.InventoryItemEntity;
 import br.com.letscode.starwarsrebelnetwork.entity.RebelEntity;
