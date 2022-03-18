@@ -94,18 +94,16 @@ After running it, you can use HTTP requests to consume the database.
 
 >`http://localhost:8080/rebels/resources`
 >
->This get request returns a report with the average resources (Weapon, Ammo, Water and Food) per active rebel in the army. It also returns the point (cost of resources)
->lost because of the rebels labeled as traitors
+>This get request returns a report with the average resources (Weapon, Ammo, Water and Food) per active rebel in the army. It also returns the point (cost of resources) lost because of the rebels labeled as traitors
 
 >`http://localhost:8080/rebels/trade/${firstId}/${secondId}`
 >
->A Post request that executes a trade between two rebels. The trade will only be completed if the ids are different (two different rebels), if any of them are traitors and if
->the resource total value from each rebel offer are the same
+>A Post request that executes a trade between two rebels. The trade will only be completed if the ids are different from each other (two different rebels), if both of them are NOT traitors and if the resource total value from each rebel offer are the same
 
 ## API Structure
 
 >The structure of the API can be consulted after you run the program in the follow adress: 
 >http://localhost:8080/starwars/swagger-ui/index.html
->It was build using Swagger
+>It was built using Swagger
 
 
